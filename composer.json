@@ -1,4 +1,17 @@
 {
+  "name": "user/1165001-task-force-1",
+  "description": "Online platform for search of performers",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "artem.labaznikov",
+      "email": "astamiir@gmail.com"
+    }
+  ],
+  "require": {
+
+  },
   "autoload": {
     "psr-4": {
       "TaskForce\\": "src/"
