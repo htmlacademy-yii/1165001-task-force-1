@@ -2,7 +2,19 @@
     namespace TaskForce\Actions;
 
     class Task {
-        // константы: действия, статусы, роли
+        /**
+         * Свойства для хранения:
+         * id исполнителя, id заказчика,
+         * срок завершения, активный статус
+         */
+        public $executorId;
+        public $clientId;
+        public $dueDate;
+        public $activeStatus;
+
+        /**
+         * Набор констант: действия, статусы, роли
+         */
         const ACTIONS = [
             'publish' => 'Опубликовать',
             'cancel' => 'Отменить',
@@ -25,12 +37,10 @@
             'executor' => 'Исполнитель',
         ];
 
-        // свойства для хранения: id исполнителя, id заказчика, срок завершения, активный статус
-        public $executorId;
-        public $clientId;
-        public $dueDate;
-        public $activeStatus;
-
+        /**
+         * Task constructor.
+         * @param $data
+         */
         public function __construct($data){
             $this->executorId = $data['executor_id'];
             $this->clientId = $data['client_id'];
@@ -38,38 +48,59 @@
             $this->activeStatus = $data['active_status'];
         }
 
-        // список действий
+        /**
+         * Метод, возвращающий список действий.
+         *
+         * @return array
+         */
         public function getActionsList(){
-            return self::ACTIONS;
+            $actionsList = self::ACTIONS;
+            return $actionsList;
         }
 
-        // список статусов
+        /**
+         * Метод, возвращающий список статусов.
+         *
+         * @return array
+         */
         public function getStatusesList(){
-            return self::STATUSES;
+            $statusesList = self::STATUSES;
+            return $statusesList;
         }
 
-        // метод для возврата статуса, в который перейдет задача для указанного действия
+        /**
+         * Метод для возврата статуса, в который перейдет задача для указанного действия.
+         *
+         * @param $action
+         * @return bool|mixed
+         */
         public function statusSwitcher($action){
             switch ($action){
+                case self::ACTIONS['publish']:
+                    $returnedStatus = self::STATUSES['new'];
+                break;
+
                 case self::ACTIONS['cancel']:
-                    return self::STATUSES['canceled'];
+                    $returnedStatus = self::STATUSES['canceled'];
                 break;
 
                 case self::ACTIONS['accept']:
-                    return self::STATUSES['in_progress'];
+                    $returnedStatus = self::STATUSES['in_progress'];
                 break;
 
                 case self::ACTIONS['complete']:
-                    return self::STATUSES['completed'];
+                    $returnedStatus = self::STATUSES['completed'];
                 break;
 
                 case self::ACTIONS['reject']:
-                    return self::STATUSES['failed'];
+                    $returnedStatus = self::STATUSES['failed'];
                 break;
 
                 default:
-                    return false;
+                    $returnedStatus = null;
                 break;
             }
+
+            return $returnedStatus;
         }
     }
