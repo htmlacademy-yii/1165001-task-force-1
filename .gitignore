@@ -7,3 +7,7 @@
 *.sublime*
 Thumbs.db
 vendor
+
+composer.lock
+
+composer.phar
