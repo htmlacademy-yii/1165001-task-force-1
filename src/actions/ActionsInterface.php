@@ -1,11 +1,18 @@
 <?php
-    namespace TaskForce\actions;
 
-    abstract class ActionsInterface
+namespace TaskForce\actions;
+
+abstract class ActionsInterface
+{
+    public function getPublicName()
     {
-        public function getPublicName(){}
-
-        public function getInnerName(){}
-
-        public function checkUserAccess($customerID, $workerID, $currentUserID){}
     }
+
+    public function getInnerName()
+    {
+    }
+
+    public function checkUserAccess($customerId, $workerId, $currentUserId)
+    {
+    }
+}

@@ -190,8 +190,6 @@
                 }
             }
 
-            echo '<pre>'; var_dump($actionIds); echo '</pre>';
-
             return $actionIds;
         }
 

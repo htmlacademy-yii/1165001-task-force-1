@@ -1,37 +1,36 @@
 <?php
-    namespace TaskForce\actions;
 
-    class ReplyAction extends ActionsInterface
+namespace TaskForce\actions;
+
+class ReplyAction extends ActionsInterface
+{
+    protected $actionName = 'Откликнуться';
+    protected $actionSlug = 'reply_action';
+
+    /**
+     * @return string
+     */
+    public function getActionName()
     {
-        public $actionName, $actionSlug;
-
-        public function __construct()
-        {
-            $this->actionName = 'Откликнуться';
-            $this->actionSlug = 'reply_action';
-        }
-
-        /**
-         * @return string
-         */
-        public function getActionName(){
-            return $this->actionName;
-        }
-
-        /**
-         * @return string
-         */
-        public function getActionSlug(){
-            return $this->actionSlug;
-        }
-
-        /**
-         * @param $customerID
-         * @param $workerID
-         * @param $currentUserID
-         * @return bool
-         */
-        public function checkUserAccess($customerID, $workerID, $currentUserID){
-            return $currentUserID !== $customerID && $currentUserID !== $workerID;
-        }
+        return $this->actionName;
     }
+
+    /**
+     * @return string
+     */
+    public function getActionSlug()
+    {
+        return $this->actionSlug;
+    }
+
+    /**
+     * @param $customerId
+     * @param $workerId
+     * @param $currentUserId
+     * @return bool
+     */
+    public function checkUserAccess($customerId, $workerId, $currentUserId)
+    {
+        return $currentUserId !== $customerId && $currentUserId !== $workerId;
+    }
+}
