@@ -1,6 +1,11 @@
 <?php
     namespace TaskForce\models;
 
+    use TaskForce\actions\CancelAction;
+    use TaskForce\actions\CompleteAction;
+    use TaskForce\actions\RefuseAction;
+    use TaskForce\actions\ReplyAction;
+
     class Task
     {
         /**
@@ -36,24 +41,28 @@
         const ACTIONS = [
             self::ACTION_CANCEL => [
                 'name' => 'Отменить',
+                'slug' => 'Cancel',
                 'statuses' => [self::STATUS_NEW],
                 'roles' => [User::ROLE_CUSTOMER],
                 'statusAfterAction' => self::STATUS_CANCELLED,
             ],
             self::ACTION_REPLY => [
                 'name' => 'Откликнуться',
+                'slug' => 'Reply',
                 'statuses' => [self::STATUS_NEW],
                 'roles' => [User::ROLE_WORKER],
                 'statusAfterAction' => self::STATUS_IN_PROGRESS,
             ],
             self::ACTION_COMPLETE => [
                 'name' => 'Завершить',
+                'slug' => 'Complete',
                 'statuses' => [self::STATUS_IN_PROGRESS],
                 'roles' => [User::ROLE_CUSTOMER],
                 'statusAfterAction' => self::STATUS_COMPLETED,
             ],
             self::ACTION_REFUSE => [
                 'name' => 'Отказаться',
+                'slug' => 'Refuse',
                 'statuses' => [self::STATUS_IN_PROGRESS],
                 'roles' => [User::ROLE_WORKER],
                 'statusAfterAction' => self::STATUS_FAILED,
@@ -173,7 +182,11 @@
                 }
 
                 if (in_array($this->statusId, $v['statuses'])){
-                    $actionIds[] = $k;
+                    #$actionIds[] = $k;
+                    $classname = "TaskForce\\actions\\{$v['slug']}Action";
+                    if (class_exists($classname)){
+                        $actionIds[] = new $classname();
+                    }
                 }
             }
 
