@@ -6,10 +6,6 @@
     use TaskForce\actions\RefuseAction;
     use TaskForce\actions\ReplyAction;
 
-    use TaskForce\exceptions\ClassAccessException;
-    use TaskForce\exceptions\UserRoleException;
-    use TaskForce\exceptions\TaskStatusException;
-
     class Task
     {
         /**
@@ -119,14 +115,14 @@
         }
 
         /**
-         * Возвращает статус по-заданному id, либо текущий если id не задан
+         * Возвращает статус по заданному id, либо текущий если id не задан
          *
          * @param int|null $statusId
          * @return string
          */
-        public function getStatusName(int $statusId = null): string
+        public function getStatusName(int $statusId = null)
         {
-            $statusId = $statusId ?: $this->statusId;
+            $statusId = $statusId ? $statusId : $this->statusId;
             return self::STATUSES[$statusId] ?? '#N/A';
         }
 
@@ -164,12 +160,8 @@
          */
         public static function getStatusAfterAction(int $actionId): string
         {
-            if (!isset(self::ACTIONS[$actionId])){
-                throw new TaskStatusException('Статуса с указанным ID не существует');
-            }
-
-            $statusId = self::ACTIONS[$actionId]['statusAfterAction'];
-            return self::STATUSES[$statusId];
+            $statusId = self::ACTIONS[$actionId]['statusAfterAction'] ?? 0;
+            return self::STATUSES[$statusId] ?? '#N/A';
         }
 
         /**
@@ -186,16 +178,15 @@
 
             foreach (self::ACTIONS as $k => $v) {
                 if (!is_null($roleId) && !in_array($roleId, $v['roles'])){
-                    throw new UserRoleException('Неподходящая роль');
+                    continue;
                 }
 
-                if (!in_array($this->statusId, $v['statuses'])){
+                if (in_array($this->statusId, $v['statuses'])){
+                    #$actionIds[] = $k;
                     $classname = "TaskForce\\actions\\{$v['slug']}Action";
-                    if (!class_exists($classname)){
-                        throw new ClassAccessException('Такого класса не существует');
+                    if (class_exists($classname)){
+                        $actionIds[] = new $classname();
                     }
-
-                    $actionIds[] = new $classname();
                 }
             }
 
@@ -225,7 +216,7 @@
         /*
          * Action Cancel
          */
-        public function cancel(): void
+        public function cancel()
         {
             $this->statusId = self::STATUS_CANCELLED;
         }
@@ -233,7 +224,7 @@
         /*
          * Action Reply
          */
-        public function reply(): void
+        public function reply()
         {
             $this->statusId = self::STATUS_IN_PROGRESS;
         }
@@ -241,7 +232,7 @@
         /*
          * Action Complete
          */
-        public function complete(): void
+        public function complete()
         {
             $this->statusId = self::STATUS_COMPLETED;
         }
@@ -249,7 +240,7 @@
         /*
          * Action Refuse
          */
-        public function refuse(): void
+        public function refuse()
         {
             $this->statusId = self::STATUS_FAILED;
         }
