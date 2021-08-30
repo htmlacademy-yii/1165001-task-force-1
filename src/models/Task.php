@@ -189,7 +189,7 @@
                     throw new UserRoleException('Неподходящая роль');
                 }
 
-                if (!in_array($this->statusId, $v['statuses'])){
+                if (in_array($this->statusId, $v['statuses'])){
                     $classname = "TaskForce\\actions\\{$v['slug']}Action";
                     if (!class_exists($classname)){
                         throw new ClassAccessException('Такого класса не существует');
