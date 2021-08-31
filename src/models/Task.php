@@ -126,6 +126,10 @@
          */
         public function getStatusName(int $statusId = null): string
         {
+            if (!$statusId){
+                throw new TaskStatusException('Не указан статус');
+            }
+
             $statusId = $statusId ?: $this->statusId;
             return self::STATUSES[$statusId] ?? '#N/A';
         }
@@ -186,7 +190,7 @@
 
             foreach (self::ACTIONS as $k => $v) {
                 if (!is_null($roleId) && !in_array($roleId, $v['roles'])){
-                    throw new UserRoleException('Неподходящая роль');
+                    throw new UserRoleException("Неподходящая роль: {$roleId}");
                 }
 
                 if (in_array($this->statusId, $v['statuses'])){

@@ -2,7 +2,7 @@
 
 namespace TaskForce\exceptions;
 
-class TaskForceBaseException extends \Exception
+abstract class TaskForceBaseException extends \Exception
 {
 
 }
