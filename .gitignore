@@ -43,3 +43,7 @@ phpunit.phar
 /backend/web/robots.txt
 
 common/config/main-local.php
+
+composer.lock
+
+frontend/runtime/debug/
