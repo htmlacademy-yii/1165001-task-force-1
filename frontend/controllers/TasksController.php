@@ -11,14 +11,9 @@
     {
         public function actionIndex()
         {
-            $tasks = new Query();
-            $tasks->select(['tasks.*', 'categories.name as category_name'])->from('tasks')
-                ->join('LEFT JOIN', 'categories', 'tasks.category_id = categories.id')
-                ->orderBy(['dt_add' => SORT_DESC]);
-            $tasks = $tasks->all();
+            $tasks = Tasks::find()->joinWith('category')->orderBy(['dt_add' => SORT_DESC])->all();
 
             $tasks = array_map(function($task){
-                $task = (object) $task;
                 $task->dt_add = date('d.m.Y в H:i:s', strtotime($task->dt_add));
                 return $task;
             }, $tasks);

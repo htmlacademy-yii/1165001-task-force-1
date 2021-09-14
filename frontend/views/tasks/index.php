@@ -6,11 +6,11 @@
             <div class="new-task__card">
                 <div class="new-task__title">
                     <a href="#" class="link-regular"><h2><?php echo $task->name?></h2></a>
-                    <a  class="new-task__type link-regular" href="#"><p><?php echo $task->category_name?></p></a>
+                    <a  class="new-task__type link-regular" href="#"><p><?php echo $task->category->name?></p></a>
                 </div>
                 <div class="new-task__icon new-task__icon--translation"></div>
                 <p class="new-task_description">
-                    <?php echo $task->about?>
+                    <?php echo $task->description?>
                 </p>
                 <b class="new-task__price new-task__price--translation"><?php echo $task->budget?><b> ₽</b></b>
                 <p class="new-task__place"><?php echo $task->address?></p>
