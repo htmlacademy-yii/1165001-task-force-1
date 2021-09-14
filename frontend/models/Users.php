@@ -12,6 +12,7 @@ use Yii;
  * @property string $name
  * @property string $password
  * @property string|null $dt_add
+ * @property string|null $last_online
  * @property int $city
  * @property string|null $full_address
  * @property string|null $birthday
@@ -20,7 +21,7 @@ use Yii;
  * @property string|null $phone
  * @property string|null $skype
  * @property string|null $over_messenger
- * @property int|null $rating
+ * @property float|null $rating
  * @property int|null $role
  *
  * @property Cities $city0
@@ -36,6 +37,7 @@ use Yii;
  * @property Tasks[] $tasks0
  * @property UserSettings $userSettings
  * @property UsersSpecialty[] $usersSpecialties
+ * @property UsersSpecialty[] $executors
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -54,9 +56,10 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             [['email', 'name', 'password', 'city'], 'required'],
-            [['dt_add', 'birthday'], 'safe'],
-            [['city', 'rating', 'role'], 'integer'],
+            [['dt_add', 'last_online', 'birthday'], 'safe'],
+            [['city', 'role'], 'integer'],
             [['about'], 'string'],
+            [['rating'], 'number'],
             [['email'], 'string', 'max' => 64],
             [['name', 'password', 'avatar_src', 'skype', 'over_messenger'], 'string', 'max' => 128],
             [['full_address'], 'string', 'max' => 256],
@@ -76,6 +79,7 @@ class Users extends \yii\db\ActiveRecord
             'name' => 'Name',
             'password' => 'Password',
             'dt_add' => 'Dt Add',
+            'last_online' => 'Last Online',
             'city' => 'City',
             'full_address' => 'Full Address',
             'birthday' => 'Birthday',

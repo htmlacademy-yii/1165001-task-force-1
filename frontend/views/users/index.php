@@ -14,30 +14,40 @@
         </ul>
     </div>
 
-    <?php foreach ($users as $user) { ?>
+    <?php foreach ($users as $user) {
+        $task_count = \Yii::t(
+            'app',
+            '{n, plural, =0{# заданий} =1{# задание} one{# задание} few{# заданий} many{# заданий} other{# задания}}',
+            ['n' => count($user->tasks)]
+        );
+
+        $opinions_count = \Yii::t(
+            'app',
+            '{n, plural, =0{# отзывов} =1{# отзыв} one{# отзыв} few{# отзывов} many{# отзывов} other{# отзывы}}',
+            ['n' => count($user->opinions)]
+        );
+    ?>
         <div class="content-view__feedback-card user__search-wrapper">
             <div class="feedback-card__top">
                 <div class="user__search-icon">
-                    <a href="#"><img src="./img/man-glasses.jpg" width="65" height="65"></a>
-                    <span>17 заданий</span>
-                    <span>6 отзывов</span>
+                    <a href="#"><img src="<?php echo $user->avatar_src?>" width="65" height="65"></a>
+                    <span><?php echo $task_count?></span>
+                    <span><?php echo $opinions_count?></span>
                 </div>
                 <div class="feedback-card__top--name user__search-card">
                     <p class="link-name"><a href="#" class="link-regular"><?php echo $user->name ?></a></p>
                     <span></span><span></span><span></span><span></span><span class="star-disabled"></span>
-                    <b>4.25</b>
+                    <b><?php echo $user->rating?></b>
                     <p class="user__search-content">
-                        Сложно сказать, почему элементы политического процесса лишь
-                        добавляют фракционных разногласий и рассмотрены исключительно
-                        в разрезе маркетинговых и финансовых предпосылок.
+                        <?php echo $user->about?>
                     </p>
                 </div>
-                <span class="new-task__time">Был на сайте 25 минут назад</span>
+                <span class="new-task__time">Был на сайте <?php echo $user->last_online?></span>
             </div>
             <div class="link-specialization user__search-link--bottom">
-                <a href="#" class="link-regular">Ремонт</a>
-                <a href="#" class="link-regular">Курьер</a>
-                <a href="#" class="link-regular">Оператор ПК</a>
+                <?php foreach ($user->usersSpecialties as $specialty){ ?>
+                    <a href="#" class="link-regular"><?php echo $specialty->category->name?></a>
+                <?php } ?>
             </div>
         </div>
     <?php } ?>

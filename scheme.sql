@@ -22,6 +22,7 @@ CREATE TABLE users
     name           varchar(128) NOT NULL,
     password       varchar(128) NOT NULL,
     dt_add         datetime,
+    lsat_online    datetime,
     city           int          NOT NULL,
 
     full_address   varchar(256),
@@ -31,7 +32,7 @@ CREATE TABLE users
     phone          varchar(20),
     skype          varchar(128),
     over_messenger varchar(128),
-    rating         int,
+    rating         float,
     role           int(1),
 
     FOREIGN KEY (city) REFERENCES cities (id)
