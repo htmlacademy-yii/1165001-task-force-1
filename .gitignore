@@ -47,3 +47,9 @@ common/config/main-local.php
 composer.lock
 
 frontend/runtime/debug/
+
+backend/config/main-local.php
+
+common/config/codeception-local.php
+
+frontend/config/main-local.php
