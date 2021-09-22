@@ -10,7 +10,7 @@
                 $opened = Yii::$app->request->get('sort') == $param;
             ?>
                 <li class="user__search-item <?php echo $opened ? 'user__search-item--current' : ''?>">
-                    <a href="<?php echo \Yii::$app->request->getPathInfo() ?>?sort=<?php echo $param?>" class="link-regular"><?php echo $name?></a>
+                    <a href="/<?php echo \Yii::$app->request->getPathInfo() ?>?sort=<?php echo $param?>" class="link-regular"><?php echo $name?></a>
                 </li>
             <?php } ?>
         </ul>
