@@ -15,6 +15,7 @@ class UsersSearch extends UserFilterForm
      */
     public function filter($params)
     {
+        $sort = isset($params['sort']) ? $params['sort'] : null;
         $params = $params['UserFilterForm'];
 
         $categories = $params['category'];
@@ -62,7 +63,7 @@ class UsersSearch extends UserFilterForm
         }
 
         // сортировка
-        switch (\Yii::$app->request->get('sort')) {
+        switch ($sort) {
             case 'rating';
                 $query = $query->orderBy(['rating' => SORT_DESC]);
             break;
