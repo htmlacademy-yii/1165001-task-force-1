@@ -14,7 +14,7 @@
     <legend>Категории</legend>
 
     <?php foreach ($categories as $category) {
-        $checked = (bool) Yii::$app->request->get('UserFilterForm')['category'][$category->id];
+        $checked = (bool) $selected['categories'][$category->id];
 
         echo $form->field($model, "category[{$category->id}]", [
             'template' => '{input} {label}',
@@ -37,12 +37,18 @@
             continue;
         }
 
+        $checked = (bool) $selected['additionals'][$attr];
+
         echo $form->field($model, $attr, [
             'template' => '{input} {label}',
             'options' => ['tag' => false]
         ])
         ->label($label, ['for' => "additional_checkbox_{$attr}"])
-        ->checkbox(['class' => 'visually-hidden checkbox__input', 'id' => "additional_checkbox_{$attr}"], false);
+        ->checkbox([
+            'class' => 'visually-hidden checkbox__input',
+            'id' => "additional_checkbox_{$attr}",
+            'checked' => $checked
+        ], false);
     } ?>
 </fieldset>
 

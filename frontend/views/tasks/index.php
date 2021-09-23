@@ -54,6 +54,7 @@
                 [
                     'model' => $model,
                     'categories' => $categories,
+                    'selected' => $selected
                 ]
             )
         ?>

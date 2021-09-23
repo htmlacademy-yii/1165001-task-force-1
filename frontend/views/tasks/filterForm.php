@@ -15,7 +15,7 @@ $form = ActiveForm::begin([
     <legend>Категории</legend>
 
     <?php foreach ($categories as $category) {
-        $checked = (bool) Yii::$app->request->get('TaskFilterForm')['category'][$category->id];
+        $checked = (bool) $selected['categories'][$category->id];
 
         echo $form->field($model, "category[{$category->id}]", [
             'template' => '{input} {label}',
@@ -38,16 +38,25 @@ $form = ActiveForm::begin([
             continue;
         }
 
+        $checked = (bool) $selected['additionals'][$attr];
+
         echo $form->field($model, $attr, [
             'template' => '{input} {label}',
             'options' => ['tag' => false]
         ])
             ->label($label, ['for' => "additional_checkbox_{$attr}"])
-            ->checkbox(['class' => 'visually-hidden checkbox__input', 'id' => "additional_checkbox_{$attr}"], false);
+            ->checkbox(
+                [
+                    'class' => 'visually-hidden checkbox__input',
+                    'id' => "additional_checkbox_{$attr}",
+                    'checked' => $checked
+                ], false
+            );
     } ?>
 </fieldset>
 
 <?php
+    $model->period = $selected['period'];
     echo $form->field($model, 'period', [
         'template' => '{label} {input}',
         'options' => ['tag' => false]
@@ -55,7 +64,11 @@ $form = ActiveForm::begin([
         ->label('Период', ['for' => 'period', 'class' => 'search-task__name'])
         ->dropDownList(
             ['' => 'За все время', 'day' => 'За день', 'week' => 'За неделю', 'month' => 'За месяц'],
-            ['class' => 'multiple-select input', 'id' => 'period'],
+            [
+                'class' => 'multiple-select input',
+                'id' => 'period',
+                'selected' => $model->period
+            ],
             false
         );
 ?>
