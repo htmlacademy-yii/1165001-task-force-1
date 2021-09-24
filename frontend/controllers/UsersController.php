@@ -2,12 +2,14 @@
     namespace frontend\controllers;
 
     use frontend\models\Categories;
+    use frontend\models\Users;
     use frontend\models\form\UserFilterForm;
     use frontend\models\UsersSearch;
 
     use Yii;
     use yii\web\Controller;
     use yii\data\Pagination;
+    use yii\web\NotFoundHttpException;
 
     class UsersController extends Controller
     {
@@ -49,6 +51,43 @@
                     'categories' => $categories,
                     'pagination' => $pagination,
                     'selected' => $selected
+                ]
+            );
+        }
+
+        public function actionDetail($id)
+        {
+            $user = Users::find()
+                ->joinWith('city0')
+                ->joinWith('opinions')
+                ->joinWith('portfolios')
+                ->where(['users.id' => $id])
+                ->one();
+
+            if (!$user) {
+                throw new NotFoundHttpException("Пользователь с ID {$id} не найден");
+            }
+
+            $tasks_count = \Yii::t(
+                'app',
+                '{n, plural, =0{# заказов} =1{# заказ} one{# заказ} few{# заказов} many{# заказов} other{# заказы}}',
+                ['n' => count($user->tasks0)]
+            );
+
+            $opinions_count = \Yii::t(
+                'app',
+                '{n, plural, =0{# отзывов} =1{# отзыв} one{# отзыв} few{# отзывов} many{# отзывов} other{# отзыва}}',
+                ['n' => count($user->opinions0)]
+            );
+
+            $user->last_online = Yii::$app->formatter->format($user->last_online, 'relativeTime');
+            
+            return $this->render(
+                'detail',
+                [
+                    'user' => $user,
+                    'tasks_count' => $tasks_count,
+                    'opinions_count' => $opinions_count,
                 ]
             );
         }

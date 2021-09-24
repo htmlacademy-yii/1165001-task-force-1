@@ -133,7 +133,7 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getReplies()
     {
-        return $this->hasOne(Replies::className(), ['task_id' => 'id']);
+        return $this->hasMany(Replies::className(), ['task_id' => 'id']);
     }
 
     /**

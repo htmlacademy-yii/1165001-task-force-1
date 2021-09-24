@@ -2,12 +2,14 @@
     namespace frontend\controllers;
 
     use frontend\models\form\TaskFilterForm;
+    use frontend\models\Tasks;
     use frontend\models\Categories;
     use frontend\models\TasksSearch;
     
     use Yii;
     use yii\web\Controller;
     use yii\data\Pagination;
+    use yii\web\NotFoundHttpException;
 
     class TasksController extends Controller
     {
@@ -47,6 +49,45 @@
                     'categories' => $categories,
                     'pagination' => $pagination,
                     'selected' => $selected
+                ]
+            );
+        }
+
+        public function actionDetail($id)
+        {
+            $task = Tasks::find($id)
+                ->joinWith('customer')
+                ->joinWith('replies')
+                ->joinWith('taskAttachments')
+                ->where(['tasks.id' => $id])
+                ->one();
+
+            if (!$task) {
+                throw new NotFoundHttpException("Задание с ID {$id} не найдено");
+            }
+
+            $task->dt_add = Yii::$app->formatter->format($task->dt_add, 'relativeTime');
+
+            $customer_tasks_count =
+                \Yii::t(
+                    'app',
+                    '{n, plural, =0{# заданий} =1{# задание} one{# задание} few{# заданий} many{# заданий} other{# задания}}',
+                    ['n' => count($task->customer->tasks)]
+                );
+
+            $customer = (object) [
+                'tasks_count' => $customer_tasks_count,
+                'registrated' => $task->customer->dt_add
+            ];
+            
+            $customer->registrated = Yii::$app->formatter->format($customer->registrated, 'relativeTime');
+            $customer->registrated = str_replace(' назад', '', $customer->registrated);
+
+            return $this->render(
+                'detail',
+                [
+                    'task' => $task,
+                    'customer' => $customer,
                 ]
             );
         }

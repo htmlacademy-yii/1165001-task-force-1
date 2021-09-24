@@ -36,12 +36,11 @@ class Replies extends \yii\db\ActiveRecord
     {
         return [
             [['dt_add'], 'safe'],
-            [['rate', 'sender_id', 'receiver_id', 'task_id'], 'required'],
-            [['rate', 'sender_id', 'receiver_id', 'task_id'], 'integer'],
-            [['description'], 'string'],
+            [['executor_id', 'task_id'], 'required'],
+            [['executor_id', 'task_id'], 'integer'],
+            [['comment'], 'string'],
             [['task_id'], 'unique'],
-            [['sender_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['sender_id' => 'id']],
-            [['receiver_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['receiver_id' => 'id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['executor_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
@@ -54,10 +53,8 @@ class Replies extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'dt_add' => 'Dt Add',
-            'rate' => 'Rate',
-            'description' => 'Description',
-            'sender_id' => 'Sender ID',
-            'receiver_id' => 'Receiver ID',
+            'comment' => 'Comment',
+            'executor_id' => 'Executor ID',
             'task_id' => 'Task ID',
         ];
     }
@@ -67,19 +64,9 @@ class Replies extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getReceiver()
+    public function getExecutor()
     {
-        return $this->hasOne(Users::className(), ['id' => 'receiver_id']);
-    }
-
-    /**
-     * Gets query for [[Sender]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSender()
-    {
-        return $this->hasOne(Users::className(), ['id' => 'sender_id']);
+        return $this->hasOne(Users::className(), ['id' => 'executor_id']);
     }
 
     /**

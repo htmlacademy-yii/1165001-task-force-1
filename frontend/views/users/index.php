@@ -1,16 +1,17 @@
 <?php
-    use yii\widgets\LinkPager;
+
+use yii\widgets\LinkPager;
 ?>
 
 <section class="user__search">
     <div class="user__search-link">
         <p>Сортировать по:</p>
         <ul class="user__search-list">
-            <?php foreach (['rating' => 'Рейтингу', 'orders' => 'Числу заказов', 'popular' => 'Популярности'] as $param => $name){
+            <?php foreach (['rating' => 'Рейтингу', 'orders' => 'Числу заказов', 'popular' => 'Популярности'] as $param => $name) {
                 $opened = $selected['sort'] == $param;
             ?>
-                <li class="user__search-item <?php echo $opened ? 'user__search-item--current' : ''?>">
-                    <a href="/<?php echo \Yii::$app->request->getPathInfo() ?>?sort=<?php echo $param?>" class="link-regular"><?php echo $name?></a>
+                <li class="user__search-item <?php echo $opened ? 'user__search-item--current' : '' ?>">
+                    <a href="/<?php echo \Yii::$app->request->getPathInfo() ?>?sort=<?php echo $param ?>" class="link-regular"><?php echo $name ?></a>
                 </li>
             <?php } ?>
         </ul>
@@ -28,16 +29,18 @@
             '{n, plural, =0{# отзывов} =1{# отзыв} one{# отзыв} few{# отзывов} many{# отзывов} other{# отзыва}}',
             ['n' => count($user->opinions0)]
         );
+
+        $link = "/users/{$user->id}/";
     ?>
         <div class="content-view__feedback-card user__search-wrapper">
             <div class="feedback-card__top">
                 <div class="user__search-icon">
-                    <a href="#"><img src="<?php echo $user->avatar_src ?>" width="65" height="65"></a>
+                    <a href="<?php echo $link ?>"><img src="<?php echo $user->avatar_src ?>" width="65" height="65"></a>
                     <span><?php echo $task_count ?></span>
                     <span><?php echo $opinions_count ?></span>
                 </div>
                 <div class="feedback-card__top--name user__search-card">
-                    <p class="link-name"><a href="#" class="link-regular"><?php echo $user->name ?></a></p>
+                    <p class="link-name"><a href="<?php echo $link ?>" class="link-regular"><?php echo $user->name ?></a></p>
                     <span></span><span></span><span></span><span></span><span class="star-disabled"></span>
                     <b><?php echo $user->rating ?></b>
                     <p class="user__search-content">
@@ -56,18 +59,18 @@
 
     <div class="new-task__pagination">
         <?php
-            echo LinkPager::widget([
-                'pagination' => $pagination,
-                'options' => [
-                    'class' => 'new-task__pagination-list',
-                ],
-                'nextPageLabel' => '',
-                'prevPageLabel' => '',
-                'nextPageCssClass' => 'pagination__item',
-                'prevPageCssClass' => 'pagination__item',
-                'pageCssClass' => 'pagination__item',
-                'activePageCssClass' => 'pagination__item--current',
-            ]);
+        echo LinkPager::widget([
+            'pagination' => $pagination,
+            'options' => [
+                'class' => 'new-task__pagination-list',
+            ],
+            'nextPageLabel' => '',
+            'prevPageLabel' => '',
+            'nextPageCssClass' => 'pagination__item',
+            'prevPageCssClass' => 'pagination__item',
+            'pageCssClass' => 'pagination__item',
+            'activePageCssClass' => 'pagination__item--current',
+        ]);
         ?>
     </div>
 
