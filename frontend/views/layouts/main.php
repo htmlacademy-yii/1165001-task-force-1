@@ -22,9 +22,9 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
 
     <?php $this->head() ?>
-    
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -63,18 +63,14 @@ AppAsset::register($this);
                 </div>
                 <div class="header__nav">
                     <ul class="header-nav__list site-list">
-                        <li class="site-list__item">
-                            <a href="#">Задания</a>
-                        </li>
-                        <li class="site-list__item">
-                            <a href="#">Исполнители</a>
-                        </li>
-                        <li class="site-list__item">
-                            <a href="#">Создать задание</a>
-                        </li>
-                        <li class="site-list__item">
-                            <a>Мой профиль</a>
-                        </li>
+                        <?php foreach (['tasks' => 'Задания', 'users' => 'Исполнители', 'create-task' => 'Создать задание', 'profile' => 'Мой профиль'] as $url => $title) {
+                            $current_page = explode('/', Yii::$app->request->getPathInfo())[0];
+                            $current_page = $current_page === $url;
+                        ?>
+                            <li class="site-list__item <?php echo $current_page ? 'site-list__item--active' : ''?>">
+                                <a href="/<?php echo $url?>/"><?php echo $title?></a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
                 <div class="header__town">
@@ -104,7 +100,7 @@ AppAsset::register($this);
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">
-                        <img src="./img/user-photo.png" width="43" height="44" alt="Аватар пользователя">
+                        <img src="/img/user-photo.png" width="43" height="44" alt="Аватар пользователя">
                     </a>
                     <span class="header__account-name">
                         Василий
@@ -172,7 +168,7 @@ AppAsset::register($this);
                 </div>
                 <div class="page-footer__copyright">
                     <a>
-                        <img class="copyright-logo" src="./img/academy-logo.png" width="185" height="63" alt="Логотип HTML Academy">
+                        <img class="copyright-logo" src="/img/academy-logo.png" width="185" height="63" alt="Логотип HTML Academy">
                     </a>
                 </div>
             </div>
