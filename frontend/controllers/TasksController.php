@@ -61,23 +61,10 @@
                 throw new NotFoundHttpException("Задание с ID {$id} не найдено");
             }
 
-            $customer_tasks_count =
-                \Yii::t(
-                    'app',
-                    '{n, plural, =0{# заданий} =1{# задание} one{# задание} few{# заданий} many{# заданий} other{# задания}}',
-                    ['n' => count($task->customer->tasks)]
-                );
-
-            $customer = (object) [
-                'tasks_count' => $customer_tasks_count,
-                'registrated' => $task->customer->dt_add
-            ];
-
             return $this->render(
                 'detail',
                 [
-                    'task' => $task,
-                    'customer' => $customer,
+                    'task' => $task
                 ]
             );
         }

@@ -1,7 +1,14 @@
 <?php
     $task_date_add = Yii::$app->formatter->format($task->dt_add, 'relativeTime');
-    $customer->registrated = Yii::$app->formatter->format($customer->registrated, 'relativeTime');
-    $customer->registrated = str_replace(' назад', '', $customer->registrated);
+    $customer_registrated = Yii::$app->formatter->format($task->customer->dt_add, 'relativeTime');
+    $customer_registrated = str_replace(' назад', '', $customer_registrated);
+
+    $customer_tasks_count =
+        \Yii::t(
+            'app',
+            '{n, plural, =0{# заданий} =1{# задание} one{# задание} few{# заданий} many{# заданий} other{# задания}}',
+            ['n' => count($task->customer->tasks)]
+        );
 ?>
 
 <section class="content-view">
@@ -98,9 +105,9 @@
             </div>
 
             <p class="info-customer">
-                <span><?php echo $customer->tasks_count ?></span>
+                <span><?php echo $customer_tasks_count ?></span>
 
-                <span class="last-"><?php echo $customer->registrated ?> на сайте</span>
+                <span class="last-"><?php echo $customer_registrated ?> на сайте</span>
             </p>
 
             <a href="#" class="link-regular">Смотреть профиль</a>

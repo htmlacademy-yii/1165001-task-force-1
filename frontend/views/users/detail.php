@@ -1,5 +1,16 @@
 <?php
     $user_last_online = Yii::$app->formatter->format($user->last_online, 'relativeTime');
+    $tasks_count = \Yii::t(
+        'app',
+        '{n, plural, =0{# заказов} =1{# заказ} one{# заказ} few{# заказов} many{# заказов} other{# заказы}}',
+        ['n' => count($user->tasks0)]
+    );
+
+    $opinions_count = \Yii::t(
+        'app',
+        '{n, plural, =0{# отзывов} =1{# отзыв} one{# отзыв} few{# отзывов} many{# отзывов} other{# отзыва}}',
+        ['n' => count($user->opinions0)]
+    );
 ?>
 
 <section class="content-view">

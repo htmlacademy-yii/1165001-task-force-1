@@ -63,24 +63,10 @@
                 throw new NotFoundHttpException("Пользователь с ID {$id} не найден");
             }
 
-            $tasks_count = \Yii::t(
-                'app',
-                '{n, plural, =0{# заказов} =1{# заказ} one{# заказ} few{# заказов} many{# заказов} other{# заказы}}',
-                ['n' => count($user->tasks0)]
-            );
-
-            $opinions_count = \Yii::t(
-                'app',
-                '{n, plural, =0{# отзывов} =1{# отзыв} one{# отзыв} few{# отзывов} many{# отзывов} other{# отзыва}}',
-                ['n' => count($user->opinions0)]
-            );
-
             return $this->render(
                 'detail',
                 [
-                    'user' => $user,
-                    'tasks_count' => $tasks_count,
-                    'opinions_count' => $opinions_count,
+                    'user' => $user
                 ]
             );
         }
