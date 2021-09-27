@@ -36,11 +36,6 @@
                 'period' => Yii::$app->request->get('TaskFilterForm')['period']
             ];
 
-            $tasks = array_map(function($task){
-                $task->dt_add = date('d.m.Y в H:i:s', strtotime($task->dt_add));
-                return $task;
-            }, $tasks);
-
             return $this->render(
                 'index',
                 [
@@ -66,8 +61,6 @@
                 throw new NotFoundHttpException("Задание с ID {$id} не найдено");
             }
 
-            $task->dt_add = Yii::$app->formatter->format($task->dt_add, 'relativeTime');
-
             $customer_tasks_count =
                 \Yii::t(
                     'app',
@@ -79,9 +72,6 @@
                 'tasks_count' => $customer_tasks_count,
                 'registrated' => $task->customer->dt_add
             ];
-            
-            $customer->registrated = Yii::$app->formatter->format($customer->registrated, 'relativeTime');
-            $customer->registrated = str_replace(' назад', '', $customer->registrated);
 
             return $this->render(
                 'detail',

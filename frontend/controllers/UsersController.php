@@ -38,11 +38,6 @@
             
             $users = $users->offset($pagination->offset)->limit($pagination->limit)->all();
 
-            $users = array_map(function($user){
-                $user->last_online = date('d.m.Y в H:i:s', strtotime($user->last_online));
-                return $user;
-            }, $users);
-
             return $this->render(
                 'index',
                 [
@@ -80,8 +75,6 @@
                 ['n' => count($user->opinions0)]
             );
 
-            $user->last_online = Yii::$app->formatter->format($user->last_online, 'relativeTime');
-            
             return $this->render(
                 'detail',
                 [

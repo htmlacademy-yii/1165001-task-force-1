@@ -1,3 +1,9 @@
+<?php
+    $task_date_add = Yii::$app->formatter->format($task->dt_add, 'relativeTime');
+    $customer->registrated = Yii::$app->formatter->format($customer->registrated, 'relativeTime');
+    $customer->registrated = str_replace(' назад', '', $customer->registrated);
+?>
+
 <section class="content-view">
     <div class="content-view__card">
         <div class="content-view__card-wrapper">
@@ -7,7 +13,7 @@
                     <span>
                         Размещено в категории
                         <a href="#" class="link-regular"><?php echo $task->category->name ?></a>
-                        <?php echo $task->dt_add; ?>
+                        <?php echo $task_date_add; ?>
                     </span>
                 </div>
                 <b class="new-task__price new-task__price--<?php echo $task->category->icon ?> content-view-price"><?php echo $task->budget ?><b> ₽</b></b>

@@ -1,3 +1,7 @@
+<?php
+    $user_last_online = Yii::$app->formatter->format($user->last_online, 'relativeTime');
+?>
+
 <section class="content-view">
     <div class="user__card-wrapper">
         <div class="user__card">
@@ -18,7 +22,7 @@
             </div>
 
             <div class="content-view__headline user__card-bookmark user__card-bookmark--current">
-                <span>Был на сайте <?php echo $user->last_online ?></span>
+                <span>Был на сайте <?php echo $user_last_online ?></span>
                 <a href="#"><b></b></a>
             </div>
         </div>

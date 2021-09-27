@@ -20,9 +20,12 @@ class UsersSearch extends UserFilterForm
 
         $categories = $params['category'];
         $params['category'] = array();
-        foreach ($categories as $cat_id => $checked){
-            if ((bool) $checked) {
-                $params['category'][] = $cat_id;
+
+        if ($categories){
+            foreach ($categories as $cat_id => $checked) {
+                if ((bool)$checked){
+                    $params['category'][] = $cat_id;
+                }
             }
         }
 

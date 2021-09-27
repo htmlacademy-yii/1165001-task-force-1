@@ -18,6 +18,8 @@ use yii\widgets\LinkPager;
     </div>
 
     <?php foreach ($users as $user) {
+        $user_last_online = Yii::$app->formatter->format($user->last_online, 'relativeTime');
+
         $task_count = \Yii::t(
             'app',
             '{n, plural, =0{# заданий} =1{# задание} one{# задание} few{# заданий} many{# заданий} other{# задания}}',
@@ -47,7 +49,7 @@ use yii\widgets\LinkPager;
                         <?php echo $user->about ?>
                     </p>
                 </div>
-                <span class="new-task__time">Был на сайте <?php echo $user->last_online ?></span>
+                <span class="new-task__time">Был на сайте <?php echo $user_last_online ?></span>
             </div>
             <div class="link-specialization user__search-link--bottom">
                 <?php foreach ($user->usersSpecialties as $specialty) { ?>
