@@ -2,12 +2,14 @@
     namespace frontend\controllers;
 
     use frontend\models\form\TaskFilterForm;
+    use frontend\models\Tasks;
     use frontend\models\Categories;
     use frontend\models\TasksSearch;
     
     use Yii;
     use yii\web\Controller;
     use yii\data\Pagination;
+    use yii\web\NotFoundHttpException;
 
     class TasksController extends Controller
     {
@@ -34,11 +36,6 @@
                 'period' => Yii::$app->request->get('TaskFilterForm')['period']
             ];
 
-            $tasks = array_map(function($task){
-                $task->dt_add = date('d.m.Y в H:i:s', strtotime($task->dt_add));
-                return $task;
-            }, $tasks);
-
             return $this->render(
                 'index',
                 [
@@ -47,6 +44,27 @@
                     'categories' => $categories,
                     'pagination' => $pagination,
                     'selected' => $selected
+                ]
+            );
+        }
+
+        public function actionDetail($id)
+        {
+            $task = Tasks::find($id)
+                ->joinWith('customer')
+                ->joinWith('replies')
+                ->joinWith('taskAttachments')
+                ->where(['tasks.id' => $id])
+                ->one();
+
+            if (!$task) {
+                throw new NotFoundHttpException("Задание с ID {$id} не найдено");
+            }
+
+            return $this->render(
+                'detail',
+                [
+                    'task' => $task
                 ]
             );
         }

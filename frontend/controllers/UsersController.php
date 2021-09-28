@@ -2,12 +2,14 @@
     namespace frontend\controllers;
 
     use frontend\models\Categories;
+    use frontend\models\Users;
     use frontend\models\form\UserFilterForm;
     use frontend\models\UsersSearch;
 
     use Yii;
     use yii\web\Controller;
     use yii\data\Pagination;
+    use yii\web\NotFoundHttpException;
 
     class UsersController extends Controller
     {
@@ -36,11 +38,6 @@
             
             $users = $users->offset($pagination->offset)->limit($pagination->limit)->all();
 
-            $users = array_map(function($user){
-                $user->last_online = date('d.m.Y в H:i:s', strtotime($user->last_online));
-                return $user;
-            }, $users);
-
             return $this->render(
                 'index',
                 [
@@ -49,6 +46,27 @@
                     'categories' => $categories,
                     'pagination' => $pagination,
                     'selected' => $selected
+                ]
+            );
+        }
+
+        public function actionDetail($id)
+        {
+            $user = Users::find()
+                ->joinWith('city0')
+                ->joinWith('opinions')
+                ->joinWith('portfolios')
+                ->where(['users.id' => $id])
+                ->one();
+
+            if (!$user) {
+                throw new NotFoundHttpException("Пользователь с ID {$id} не найден");
+            }
+
+            return $this->render(
+                'detail',
+                [
+                    'user' => $user
                 ]
             );
         }
