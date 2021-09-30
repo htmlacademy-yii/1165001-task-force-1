@@ -17,9 +17,8 @@
         ?>
 
             <?php
-                $noteText = isset($errors['email']) ? $errors['email'][0] : 'Введите валидный адрес электронной почты';
                 echo $form->field($model, 'email', [
-                    'template' => "{label} {input} <span>{$noteText}</span>",
+                    'template' => "{label} {input} <span>Введите валидный адрес электронной почты</span> {error}",
                     'options' => ['tag' => false]
                 ])
                     ->label('Электронная почта', ['for' => 'email', 'class' => isset($errors['email']) ? 'input-danger' : ''])
@@ -27,9 +26,8 @@
             ?>
 
             <?php
-                $noteText = isset($errors['name']) ? $errors['name'][0] : 'Введите ваше имя и фамилию';
                 echo $form->field($model, 'name', [
-                    'template' => "{label} {input} <span>{$noteText}</span>",
+                    'template' => "{label} {input} <span>Введите ваше имя и фамилию</span> {error}",
                     'options' => ['tag' => false]
                 ])
                     ->label('Ваше имя', ['for' => 'name'])
@@ -38,7 +36,7 @@
 
             <?php
                 echo $form->field($model, 'city', [
-                    'template' => '{label} {input} <span>Укажите город, чтобы находить подходящие задачи</span>',
+                    'template' => '{label} {input} <span>Укажите город, чтобы находить подходящие задачи</span> {error}',
                     'options' => ['tag' => false]
                 ])
                     ->label('Город проживания', ['for' => 'city'])
@@ -52,9 +50,8 @@
             ?>
 
             <?php
-                $noteText = isset($errors['password']) ? $errors['password'][0] : 'Длина пароля от 8 символов';
                 echo $form->field($model, 'password', [
-                    'template' => "{label} {input} <span>{$noteText}</span>",
+                    'template' => "{label} {input} <span>Длина пароля от 8 символов</span> {error}",
                     'options' => ['tag' => false]
                 ])
                     ->label('Пароль', ['for' => 'password'])

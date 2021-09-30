@@ -12,8 +12,7 @@
         public function actionIndex()
         {
             $model = new UserRegisterForm();
-            $fields = Yii::$app->request->post('UserRegisterForm');
-            if ($model->load($fields, '') && $model->signup()){
+            if ($model->load(Yii::$app->request->post()) && $model->signup()){
                 return $this->goHome();
             }
 
