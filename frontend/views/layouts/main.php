@@ -1,16 +1,19 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $content string */
+    /* @var $this \yii\web\View */
+    /* @var $content string */
 
-use common\widgets\Alert;
-use frontend\assets\AppAsset;
-use yii\bootstrap4\Breadcrumbs;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\Nav;
-use yii\bootstrap4\NavBar;
+    use common\widgets\Alert;
+    use frontend\assets\AppAsset;
+    use yii\bootstrap4\Breadcrumbs;
+    use yii\bootstrap4\Html;
+    use yii\bootstrap4\Nav;
+    use yii\bootstrap4\NavBar;
 
-AppAsset::register($this);
+    AppAsset::register($this);
+
+    $current_page = explode('/', Yii::$app->request->getPathInfo())[0];
 ?>
+
 <?php $this->beginPage() ?>
 
 <!DOCTYPE html>
@@ -34,7 +37,7 @@ AppAsset::register($this);
         <header class="page-header">
             <div class="main-container page-header__container">
                 <div class="page-header__logo">
-                    <a href="index.html">
+                    <a href="/">
                         <svg class="page-header__logo-image" id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1634 646.35">
                             <title>taskforce_logo2-01</title>
                             <g>
@@ -64,69 +67,78 @@ AppAsset::register($this);
                 <div class="header__nav">
                     <ul class="header-nav__list site-list">
                         <?php foreach (['tasks' => 'Задания', 'users' => 'Исполнители', 'create-task' => 'Создать задание', 'profile' => 'Мой профиль'] as $url => $title) {
-                            $current_page = explode('/', Yii::$app->request->getPathInfo())[0];
-                            $current_page = $current_page === $url;
+                            $is_current_page = $current_page === $url;
                         ?>
-                            <li class="site-list__item <?php echo $current_page ? 'site-list__item--active' : ''?>">
+                            <li class="site-list__item <?php echo $is_current_page ? 'site-list__item--active' : ''?>">
                                 <a href="/<?php echo $url?>/"><?php echo $title?></a>
                             </li>
                         <?php } ?>
                     </ul>
                 </div>
-                <div class="header__town">
-                    <select class="multiple-select input town-select" size="1" name="town[]">
-                        <option value="Moscow">Москва</option>
-                        <option selected value="SPB">Санкт-Петербург</option>
-                        <option value="Krasnodar">Краснодар</option>
-                        <option value="Irkutsk">Иркутск</option>
-                        <option value="Vladivostok">Владивосток</option>
-                    </select>
-                </div>
-                <div class="header__lightbulb"></div>
-                <div class="lightbulb__pop-up">
-                    <h3>Новые события</h3>
-                    <p class="lightbulb__new-task lightbulb__new-task--message">
-                        Новое сообщение в чате
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
-                    <p class="lightbulb__new-task lightbulb__new-task--executor">
-                        Выбран исполнитель для
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
-                    <p class="lightbulb__new-task lightbulb__new-task--close">
-                        Завершено задание
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
-                </div>
-                <div class="header__account">
-                    <a class="header__account-photo">
-                        <img src="/img/user-photo.png" width="43" height="44" alt="Аватар пользователя">
-                    </a>
-                    <span class="header__account-name">
-                        Василий
-                    </span>
-                </div>
-                <div class="account__pop-up">
-                    <ul class="account__pop-up-list">
-                        <li>
-                            <a href="#">Мои задания</a>
-                        </li>
-                        <li>
-                            <a href="#">Настройки</a>
-                        </li>
-                        <li>
-                            <a href="#">Выход</a>
-                        </li>
-                    </ul>
-                </div>
+
+                <?php if ($current_page !== 'register-user'){ ?>
+                    <div class="header__town">
+                        <select class="multiple-select input town-select" size="1" name="town[]">
+                            <option value="Moscow">Москва</option>
+                            <option selected value="SPB">Санкт-Петербург</option>
+                            <option value="Krasnodar">Краснодар</option>
+                            <option value="Irkutsk">Иркутск</option>
+                            <option value="Vladivostok">Владивосток</option>
+                        </select>
+                    </div>
+
+                    <div class="header__lightbulb"></div>
+
+                    <div class="lightbulb__pop-up">
+                        <h3>Новые события</h3>
+                        <p class="lightbulb__new-task lightbulb__new-task--message">
+                            Новое сообщение в чате
+                            <a href="#" class="link-regular">«Помочь с курсовой»</a>
+                        </p>
+                        <p class="lightbulb__new-task lightbulb__new-task--executor">
+                            Выбран исполнитель для
+                            <a href="#" class="link-regular">«Помочь с курсовой»</a>
+                        </p>
+                        <p class="lightbulb__new-task lightbulb__new-task--close">
+                            Завершено задание
+                            <a href="#" class="link-regular">«Помочь с курсовой»</a>
+                        </p>
+                    </div>
+
+                    <div class="header__account">
+                        <a class="header__account-photo">
+                            <img src="/img/user-photo.png" width="43" height="44" alt="Аватар пользователя">
+                        </a>
+                        <span class="header__account-name">
+                            Василий
+                        </span>
+                    </div>
+
+                    <div class="account__pop-up">
+                        <ul class="account__pop-up-list">
+                            <li>
+                                <a href="#">Мои задания</a>
+                            </li>
+                            <li>
+                                <a href="#">Настройки</a>
+                            </li>
+                            <li>
+                                <a href="#">Выход</a>
+                            </li>
+                        </ul>
+                    </div>
+                <?php } ?>
             </div>
         </header>
 
         <main class="page-main">
             <div class="main-container page-container">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
+                <?php if ($current_page !== 'register-user'){ ?>
+                    <?= Breadcrumbs::widget([
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    ]) ?>
+                <?php } ?>
+
                 <?= Alert::widget() ?>
                 <?= $content ?>
             </div>
@@ -166,11 +178,29 @@ AppAsset::register($this);
                         </li>
                     </ul>
                 </div>
+
                 <div class="page-footer__copyright">
                     <a>
                         <img class="copyright-logo" src="/img/academy-logo.png" width="185" height="63" alt="Логотип HTML Academy">
                     </a>
                 </div>
+
+                <?php if ($current_page === 'register-user'){ ?>
+                    <div class="clipart-woman">
+                        <img src="/img/clipart-woman.png" width="238" height="450">
+                    </div>
+
+                    <div class="clipart-message">
+                        <div class="clipart-message-text">
+                            <h2>Знаете ли вы, что?</h2>
+                            <p>После регистрации вам будет доступно более
+                                двух тысяч заданий из двадцати разных категорий.</p>
+                            <p>В среднем, наши исполнители зарабатывают
+                                от 500 рублей в час.</p>
+                        </div>
+                    </div>
+                <?php } ?>
+
             </div>
         </footer>
 
